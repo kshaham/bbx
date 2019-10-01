@@ -32,7 +32,7 @@ public class PersonController {
     @ResponseBody
     public int testDb() {
         String query = "SELECT 1+1";
-        System.out.println("deee");
+        System.out.println("deee this shit works boyssss");
         return jdbcTemplate
                 .queryForObject(query, Integer.class);
 
