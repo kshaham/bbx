@@ -1,0 +1,37 @@
+version: '3.7'
+services:
+  birdbox-view-service:
+    image: birdbox-view-1.0
+    ports:
+      - 8080:8080
+    expose:
+      - "8080"
+    depends_on:
+      - birdbox-database
+    environment:
+      - SPRING_DATASOURCE_URL=jdbc:mysql://birdbox-database:3306/quotes?useSSL=false&allowPublicKeyRetrieval=true
+      - SPRING_DATASOURCE_USERNAME=dbuser
+      - SPRING_DATASOURCE_PASSWORD=dbpass
+    networks: # Networks to join (Services on the same network can communicate with each other using their name)
+      - backend
+  birdbox-database:
+    image: mysql/mysql-server:latest
+    ports:
+      - "3306:3306"
+    restart: always
+    environment:
+      - MYSQL_ROOT_PASSWORD=password
+      - MYSQL_USER=dbuser
+      - MYSQL_PASSWORD=dbpass
+      - MYSQL_DATABASE=quotes
+      - MYSQL_ONETIME_PASSWORD=true
+    volumes:
+      - db-data:/var/lib/mysql
+    networks:
+      - backend
+
+volumes:
+  db-data:
+
+networks:
+  backend:
